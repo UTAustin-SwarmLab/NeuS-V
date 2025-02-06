@@ -1,10 +1,8 @@
 from pathlib import Path
-from typing import TYPE_CHECKING
+
+import numpy as np
 
 from neus_v.video.video import Video, VideoFormat
-
-if TYPE_CHECKING:
-    import numpy as np
 
 
 def read_video(

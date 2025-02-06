@@ -2,15 +2,11 @@ import enum
 import logging
 import uuid
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
+from pathlib import Path
 
 import cv2
+import numpy as np
 from PIL import Image
-
-if TYPE_CHECKING:
-    from pathlib import Path
-
-    import numpy as np
 
 
 class VideoFormat(enum.Enum):

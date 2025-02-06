@@ -16,7 +16,8 @@ warnings.filterwarnings(
 )
 
 # Paths and parameters
-WEIGHT_PATH = Path("/opt/mars/mnt/model_weights")
+# WEIGHT_PATH = Path("/opt/mars/mnt/model_weights")
+WEIGHT_PATH = Path("/nas/mars/model_weights/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
@@ -70,8 +71,8 @@ def demo_interface(video, propositions, tl):
 
 def main():
     # Example data from the original script
-    example_video_path_1 = "/opt/mars/mnt/dataset/teaser/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
-    example_video_path_2 = "/opt/mars/mnt/dataset/teaser/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
+    example_video_path_1 = "/nas/mars/dataset/teaser/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
+    example_video_path_2 = "/nas/mars/dataset/teaser/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
     example_propositions = "waves lapping,ocean shore,storm bursts in,lightning on the sky"
     example_tl = '("waves_lapping" & "ocean_shore") U ("storm_bursts_in" U "lightning_on_the_sky")'
 
@@ -91,7 +92,7 @@ def main():
         ],
     )
 
-    demo.launch(allowed_paths=["/opt/mars/mnt/dataset/teaser"])
+    demo.launch(allowed_paths=["/nas/mars/dataset/teaser"])
 
 
 if __name__ == "__main__":

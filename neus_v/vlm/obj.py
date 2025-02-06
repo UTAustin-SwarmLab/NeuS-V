@@ -14,6 +14,7 @@ class Status(enum.Enum):
     INVALID = 4
 
 
+@dataclasses.dataclass
 class DetectedObject:
     """Detected Object class."""
 

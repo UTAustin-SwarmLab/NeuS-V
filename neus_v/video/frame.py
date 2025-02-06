@@ -1,10 +1,7 @@
 import dataclasses
-from typing import TYPE_CHECKING
 
 import cv2
-
-if TYPE_CHECKING:
-    import numpy as np
+import numpy as np
 
 
 @dataclasses.dataclass
@@ -77,5 +74,3 @@ class VideoFrame:
                     bboxes += obj_value.bounding_box_of_all_obj
 
         return bboxes
-
-
