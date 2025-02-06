@@ -1,7 +1,8 @@
-import argparse
 import pickle
 import warnings
 from pathlib import Path
+
+import gradio as gr
 
 from neus_v.smooth_scoring import smooth_confidence_scores
 from neus_v.utils import clear_gpu_memory
@@ -15,21 +16,21 @@ warnings.filterwarnings(
 )
 
 # Paths and parameters
+# WEIGHT_PATH = Path("/opt/mars/mnt/model_weights")
 WEIGHT_PATH = Path("/nas/mars/model_weights/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
 device = 7
-
 # Load the vision-language model
 vision_language_model = InternVL(model_name=model, device=device)
-
 # Load distributions
 with open(pickle_path, "rb") as f:
     distributions = pickle.load(f)
 all_dimension_data = distributions.get(model).get("all_dimension")
 
 
+# TODO: Make paths better for public release
 def process_video(video_path, propositions, tl):
     """Process the video and compute the score_on_all."""
     proposition_set = parse_proposition_set(propositions.split(","))
@@ -62,27 +63,36 @@ def process_video(video_path, propositions, tl):
         return f"Error: {str(e)}"
 
 
+# Gradio interface
+def demo_interface(video, propositions, tl):
+    """Wrapper for the Gradio interface."""
+    return process_video(video, propositions, tl)
+
+
 def main():
-    # parser = argparse.ArgumentParser(description="Process a video using temporal logic evaluation.")
-    # parser.add_argument("video", type=str, help="Path to the video file.")
-    # parser.add_argument("propositions", type=str, help="List of propositions (comma-separated).")
-    # parser.add_argument("tl", type=str, help="Temporal logic specification.")
-
-    # args = parser.parse_args()
-
-    # score = process_video(args.video, args.propositions, args.tl)
-    # print(f"Score on All: {score}")
-
-    # Example usage
+    # Example data from the original script
     example_video_path_1 = "/nas/mars/dataset/teaser/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
     example_video_path_2 = "/nas/mars/dataset/teaser/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
     example_propositions = "waves lapping,ocean shore,storm bursts in,lightning on the sky"
     example_tl = '("waves_lapping" & "ocean_shore") U ("storm_bursts_in" U "lightning_on_the_sky")'
 
-    print("Example 1:")
-    print(f"Score: {process_video(example_video_path_1, example_propositions, example_tl)}")
-    print("Example 2:")
-    print(f"Score: {process_video(example_video_path_2, example_propositions, example_tl)}")
+    demo = gr.Interface(
+        fn=demo_interface,
+        inputs=[
+            gr.Video(label="Upload Video"),
+            gr.Textbox(label="List of Propositions (comma-separated)"),
+            gr.Textbox(label="Temporal Logic Specification"),
+        ],
+        outputs=gr.Textbox(label="Score on All"),
+        title="Video Evaluation with Temporal Logic",
+        description="Upload a video and provide propositions and temporal logic to evaluate the score_on_all.",
+        examples=[
+            [example_video_path_1, example_propositions, example_tl],
+            [example_video_path_2, example_propositions, example_tl],
+        ],
+    )
+
+    demo.launch(allowed_paths=["/nas/mars/dataset/teaser"])
 
 
 if __name__ == "__main__":
