@@ -22,7 +22,7 @@ WEIGHT_PATH = Path("./assets/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
-device = 7
+device = 0
 # Load the vision-language model
 vision_language_model = InternVL(model_name=model, device=device)
 # Load distributions
