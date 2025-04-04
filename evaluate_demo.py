@@ -17,7 +17,8 @@ warnings.filterwarnings(
 
 # Paths and parameters
 # WEIGHT_PATH = Path("/opt/mars/mnt/model_weights")
-WEIGHT_PATH = Path("/nas/mars/model_weights/")
+# WEIGHT_PATH = Path("/nas/mars/model_weights/")
+WEIGHT_PATH = Path("./assets/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
@@ -25,6 +26,7 @@ device = 7
 # Load the vision-language model
 vision_language_model = InternVL(model_name=model, device=device)
 # Load distributions
+print(f"Loading distributions from {pickle_path}")
 with open(pickle_path, "rb") as f:
     distributions = pickle.load(f)
 all_dimension_data = distributions.get(model).get("all_dimension")
@@ -71,8 +73,10 @@ def demo_interface(video, propositions, tl):
 
 def main():
     # Example data from the original script
-    example_video_path_1 = "/nas/mars/dataset/teaser/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
-    example_video_path_2 = "/nas/mars/dataset/teaser/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
+    example_video_path_1 = (
+        "assets/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
+    )
+    example_video_path_2 = "assets/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
     example_propositions = "waves lapping,ocean shore,storm bursts in,lightning on the sky"
     example_tl = '("waves_lapping" & "ocean_shore") U ("storm_bursts_in" U "lightning_on_the_sky")'
 
@@ -92,7 +96,8 @@ def main():
         ],
     )
 
-    demo.launch(allowed_paths=["/nas/mars/dataset/teaser"])
+    # demo.launch(allowed_paths=["/nas/mars/dataset/teaser"])
+    demo.launch(allowed_paths=["assets/"], server_name="0.0.0.0", server_port=7860)
 
 
 if __name__ == "__main__":
