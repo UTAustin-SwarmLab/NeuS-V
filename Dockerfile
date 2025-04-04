@@ -49,7 +49,7 @@ RUN mkdir -p storm_build && \
     -DSTORM_LOG_DISABLE_DEBUG=ON \
     -DSTORM_PORTABLE=ON \
     -DSTORM_USE_SPOT_SHIPPED=ON && \
-    make -j4
+    make -j1
 
 RUN pip install stormpy
 
