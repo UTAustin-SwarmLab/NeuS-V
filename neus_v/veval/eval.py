@@ -6,7 +6,7 @@ from joblib import Parallel, delayed
 
 from neus_v.automaton.video_automaton import VideoAutomaton
 from neus_v.model_checking.stormpy import StormModelChecker
-from neus_v.veval.parse import parse_tl_formula
+from neus_v.veval.parse import parse_tl_formula, parse_until_to_next_frame
 from neus_v.video.frame import VideoFrame
 from neus_v.video.read_video import read_video
 
@@ -35,6 +35,7 @@ def evaluate_video(
     tl_spec: str,
     parallel_inference: bool = False,
     threshold: float = 0.1,
+    num_of_frame_in_sequence: int = 1,
 ) -> dict:
     """Evaluate a video using the given vision language model."""
     output_log = {
@@ -52,6 +53,7 @@ def evaluate_video(
 
     # TODO: if there's F in the tl_spec
     ltl_formula = parse_tl_formula(tl_spec)
+    ltl_formula = parse_until_to_next_frame(ltl_formula)
 
     video_automaton = VideoAutomaton(include_initial_state=True)
 
@@ -97,10 +99,12 @@ def evaluate_video(
                 return video_frame, object_of_interest
 
             if parallel_inference:
+                frame_windows = create_frame_windows(frames=all_frames, window_size=num_of_frame_in_sequence)
                 results = Parallel(n_jobs=len(all_frames))(
                     delayed(process_frame)(frame_img, i) for i, frame_img in enumerate(all_frames)
                 )
             else:
+                frame_windows = create_frame_windows(frames=all_frames, window_size=num_of_frame_in_sequence)
                 results = [process_frame(frame_img, i) for i, frame_img in enumerate(all_frames)]
 
             for video_frame, object_of_interest in results:
@@ -163,6 +167,7 @@ def evaluate_video_with_sequence_of_images(
 
     # TODO: if there's F in the tl_spec
     ltl_formula = parse_tl_formula(tl_spec)
+    ltl_formula = parse_until_to_next_frame(ltl_formula)
 
     video_automaton = VideoAutomaton(include_initial_state=True)
 
@@ -191,7 +196,7 @@ def evaluate_video_with_sequence_of_images(
                     detected_object = vision_language_model.detect(
                         seq_of_frames=sequence_of_frames,
                         scene_description=proposition,
-                        confidence_as_token_probability=confidence_as_token_probability,
+                        # confidence_as_token_probability=confidence_as_token_probability,
                         threshold=threshold,
                     )
                     object_of_interest[proposition] = detected_object

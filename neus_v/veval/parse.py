@@ -27,3 +27,8 @@ def parse_proposition_set(proposition_set: list[str]) -> list[str]:
 def parse_tl_specification(tl_spec: str) -> str:
     """Parse the tl specification."""
     return tl_spec.replace("-", "_")
+
+
+def parse_until_to_next_frame(tl_spec: str) -> str:
+    """Parse the tl specification."""
+    return tl_spec.replace("U", "& F")

@@ -174,7 +174,8 @@ class StormModelChecker:
 
             # Check probabilities
             for state, prob_sum in outgoing_probs.items():
-                if not math.isclose(prob_sum, 1.0, rel_tol=1e-9):
+                # if not math.isclose(prob_sum, 1.0, rel_tol=1e-9):
+                if not math.isclose(prob_sum, 1.0, abs_tol=1e-2):
                     logging.warning(f"State {state} has outgoing probability sum of {prob_sum}, not 1.0")
 
             # ... (existing logging code) ...

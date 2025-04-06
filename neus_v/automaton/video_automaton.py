@@ -18,6 +18,7 @@ class VideoAutomaton:
         self.previous_states: list[VideoState] = []
         self.states: list[VideoState] = []
         self.transitions = []
+        self.transition_map = {}
         self.include_initial_state = include_initial_state
 
     def set_up(self, proposition_set: list[str]) -> None:
@@ -68,6 +69,7 @@ class VideoAutomaton:
         # Build transitions from previous states to current states
         if self.previous_states:
             for prev_state in self.previous_states:
+                self.transition_map[prev_state.state_index] = []
                 for cur_state in current_states:
                     transition = (
                         prev_state.state_index,
@@ -75,6 +77,7 @@ class VideoAutomaton:
                         cur_state.probability,
                     )
                     self.transitions.append(transition)
+                    self.transition_map[prev_state.state_index].append(cur_state.state_index)
 
         self.previous_states = current_states if current_states else self.previous_states
         self.frame_index_in_automaton += 1
@@ -101,14 +104,26 @@ class VideoAutomaton:
                 (prev_state.state_index, prev_state.state_index, 1.0) for prev_state in self.previous_states
             )
 
+    def get_frame_to_state_index(self) -> dict[int, list[int]]:
+        """Get frame to state index mapping."""
+        data = {}
+        for state in self.states:
+            if state.frame_index not in data:
+                data[state.frame_index] = []
+            data[state.frame_index].append(state.state_index)
+        return data
+
     def _get_probability_of_propositions(self, frame: VideoFrame) -> None:
         """Update the probability of propositions."""
         for i, prop in enumerate(self.proposition_set):
-            prop = prop.replace("_", " ")
             if frame.object_of_interest.get(prop):
                 probability = frame.object_of_interest[prop].get_probability()
             else:
-                probability = 0.0
+                prop = prop.replace("_", " ")
+                if frame.object_of_interest.get(prop):
+                    probability = frame.object_of_interest[prop].get_probability()
+                else:
+                    probability = 0.0
             self.probability_of_propositions[i].append(round(probability, 2))
 
     def _create_label_combinations(self, num_props: int) -> list[str]:

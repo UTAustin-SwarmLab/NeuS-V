@@ -14,7 +14,8 @@ class DataTransformer:
 
 
 def smooth_confidence_scores(target_data, prior_distribution=None):
-    if prior_distribution is None:
-        prior_distribution = target_data
-    transformer = DataTransformer(prior_distribution)
-    return transformer.mapping_function(target_data)
+    # if prior_distribution is None:
+    #     prior_distribution = target_data
+    # transformer = DataTransformer(prior_distribution)
+    # return transformer.mapping_function(target_data)
+    return target_data[0]
