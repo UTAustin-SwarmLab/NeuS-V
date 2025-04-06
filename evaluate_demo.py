@@ -8,7 +8,7 @@ from neus_v.smooth_scoring import smooth_confidence_scores
 from neus_v.utils import clear_gpu_memory
 from neus_v.veval.eval import evaluate_video_with_sequence_of_images
 from neus_v.veval.parse import parse_proposition_set, parse_tl_specification
-from neus_v.vlm.internvl import InternVL
+from neus_v.vlm.vllm_client import VLLMClient
 
 # Suppress specific warnings
 warnings.filterwarnings(
@@ -24,7 +24,7 @@ num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
 device = 0
 # Load the vision-language model
-vision_language_model = InternVL(model_name=model, device=device)
+vision_language_model = VLLMClient(api_base="http://localhost:8000/v1", model="OpenGVLab/InternVL2_5-8B")
 # Load distributions
 print(f"Loading distributions from {pickle_path}")
 with open(pickle_path, "rb") as f:

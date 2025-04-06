@@ -1,5 +1,8 @@
 FROM syzygianinfern0/stormbase:latest
 
+# Install vllm (move it to Dockerfile.stormbase and remove this line)
+RUN pip install vllm matplotlib
+
 # Set up a new user named "user" with user ID 1000
 RUN useradd -m -u 1000 user
 
@@ -20,4 +23,4 @@ COPY --chown=user . $HOME/app
 EXPOSE 7860
 
 # Run your Gradio app
-CMD ["python3", "evaluate_demo.py"]
+CMD ["./launch_space.sh"]
