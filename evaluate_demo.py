@@ -22,7 +22,6 @@ WEIGHT_PATH = Path("./assets/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
 model = "InternVL2-8B"
-device = 0
 # Load the vision-language model
 vision_language_model = VLLMClient(api_base="http://localhost:8000/v1", model="OpenGVLab/InternVL2_5-8B")
 # Load distributions

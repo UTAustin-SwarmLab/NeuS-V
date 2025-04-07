@@ -10,5 +10,5 @@ vllm serve $MODEL \
     --port $PORT \
     --trust-remote-code \
     --limit-mm-per-prompt image=4 \
-    --enforce-eager \
-    --max-model-len 16384
+    # --enforce-eager \
+    # --max-model-len 16384

@@ -226,17 +226,17 @@ def evaluate_video_with_sequence_of_images(
                 for proposition, detected_object in object_of_interest.items():
                     proposition_probability_record[proposition].append(detected_object.probability)
 
-            video_automaton.add_terminal_state(add_with_terminal_label=True)
+            video_automaton.add_terminal_state(add_with_terminal_label=False)
             sys.stdout.write("\n")  # Move to the next line after processing all frames
             result = model_checker.check_automaton(
                 states=video_automaton.states,
                 transitions=video_automaton.transitions,
                 model_type="dtmc",
-                use_filter=True,
+                use_filter=False,
             )
             output_log["specification"] = tl_spec
             output_log["propositions"] = proposition_set
-            output_log["probability"] = round(float(str(result)), 6)
+            output_log["probability"] = round(float(str(result.at(0))), 6)
             output_log["min_probability"] = round(float(str(result.min)), 6)
             output_log["max_probability"] = round(float(str(result.max)), 6)
             for (
