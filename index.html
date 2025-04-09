@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification">
+  <meta name="keywords" content="video, understanding, reasoning, neuro-symbolic, ai, temporal, logic, formal, methods">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://utaustin-swarmlab.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://utaustin-swarmlab.github.io/nsvs/">
+            NSVS
+          </a>
+          <a class="navbar-item" href="https://utaustin-swarmlab.github.io/neusv/">
+            NeuS-V
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              S P Sharan<sup>&dagger;</sup>,</span>
+            <span class="author-block">
+              Minkyu Choi<sup>&dagger;</sup>,</span>
+            <span class="author-block">
+              Sahil Shah,
+            </span>
+            <span class="author-block">
+              Harsh Goel,
+            </span>
+            <span class="author-block">
+              Mohammad Omama,
+            </span>
+            <span class="author-block">
+              Sandeep Chinchali,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">The University of Texas at Austin</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">&dagger;Contributed equally to this work</span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="google.com"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2411.16718"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/UTAustin-SwarmLab/NeuS-V"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Source Code</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/spaces/Syzygianinfern0/NeuS-V"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <img src="static/images/huggingface.svg" style="height: 1em; vertical-align: middle;">
+                  </span>
+                  <span>Hugging Face</span>
+                  </a>
+              </span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="rows is-centered has-text-centered">
+      <video autoplay muted loop playsinline height="100%">
+        <source src="static/videos/demo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<br><br>
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+  Recent advancements in text-to-video models such as Sora, Gen-3, MovieGen, and CogVideoX are pushing the boundaries of synthetic video generation, with adoption seen in fields like robotics, autonomous driving, and entertainment. As these models become prevalent, various metrics and benchmarks have emerged to evaluate the quality of the generated videos. However, these metrics emphasize visual quality and smoothness, neglecting temporal fidelity and text-to-video alignment, which are crucial for safety-critical applications.
+          </p>
+          <p>
+  To address this gap, we introduce NeuS-V, a novel synthetic video evaluation metric that rigorously assesses text-to-video alignment using neuro-symbolic formal verification techniques. Our approach first converts the prompt into a formally defined Temporal Logic (TL) specification and translates the generated video into an automaton representation. Then, it evaluates the text-to-video alignment by formally checking the video automaton against the TL specification. Furthermore, we present a dataset of temporally extended prompts to evaluate state-of-the-art video generation models against our benchmark. We find that NeuS-V demonstrates a higher correlation by over 5&times; with human evaluations when compared to existing metrics. Our evaluation further reveals that current video generation models perform poorly on these temporally complex prompts, highlighting the need for future work in improving text-to-video generation capabilities.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container is-max-desktop">
+  <div class="rows is-centered">
+    <div class="row">
+      <h2 class="title is-3 has-text-centered">Methodology</h2>
+    </div>
+    <br>
+    <div class="row">
+      <p>
+        We introduce a novel way to identify scenes of interest using a neuro-symbolic approach. Given video streams or clips alongside the temporal logic specification &Phi;, Neuro-Symbolic Visual Search with Temporal Logic (NSVS-TL)  identifies scenes of interest.
+      </p>
+    </div>
+
+    <br>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <img src="static/images/flowchart.jpg" alt="Method Overview">
+      </div>
+    </div>
+    <p>
+      <ul class="dashed-list">
+        <li> <b>Step 1: </b>We translate the text prompt into a set of atomic propositions and a TL specification through Prompt Understanding via temporal Logic Specification (PULS).
+        </li>
+        <li> <b> Step 2: </b>We obtain a semantic confidence score for each atomic proposition using a VLM applied to each sequence of frames
+        </li>
+        <li> <b> Step 3: </b>We construct a video automaton representation for the synthetic video.
+        </li>
+        <li> <b> Step 4: </b>We compute the satisfaction probability by formally verifying the constructed video automaton against the TL specification.
+        </li>
+        <li> <b> Step 5: </b>Finally, we calibrate the satisfaction probability by mapping it to the final evaluation score from NeuS-V.
+        </li>
+      </ul>
+    </p>
+  </div>
+  <br>
+</div>
+<br><br>
+
+<section class="hero is-light is-small">
+  <div class="columns is-centered has-text-centered">
+    <div class="hero-body">
+      <div class="container">
+      <h2 class="title is-3 has-text-centered">NeuS-V Examples</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-video1">
+            <video poster="" id="viedo1" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/bird.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">A bird singing until it flies away to another branch</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.895</h5>
+          </div>
+          <div class="item item-chair-video2">
+            <video poster="" id="chair-video2" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/bus.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">A bus stopping and passengers boarding from the curb</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.648</h5>
+          </div>
+          <div class="item item-video3">
+            <video poster="" id="video3" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/clock.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">Always a clock striking each hour with precision</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.077</h5>
+          </div>
+          <div class="item item-video4">
+            <video poster="" id="video4" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/caralarm.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">A car alarm sounding until it is deactivated</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.002</h5>
+          </div>
+          <div class="item item-video5">
+            <video poster="" id="video5" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/microwave.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">Always a microwave heating up dinner, and the timer counting down the minutes</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.679</h5>
+          </div>
+          <div class="item item-video6">
+            <video poster="" id="video6" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/belt.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">Always a conveyor belt moving products along the line, until a sensor detects an error, and then the entire system comes to a halt</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.151</h5>
+          </div>
+          <div class="item item-video7">
+            <video poster="" id="video7" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/camera.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">A camera clicking and the shutter capturing images</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.017</h5>
+          </div>
+          <div class="item item-video8">
+            <video poster="" id="video8" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/ocean.mp4"
+                      type="video/mp4">
+            </video>
+            <h6 class="title is-6 has-text-centered" style="margin: 1rem 0;">The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky</h5>
+            <h5 class="title is-5 has-text-centered" style="margin: 1rem 0;">NeuS-V Score: 0.937</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<br><br>
+<div class="container is-max-desktop">
+  <div class="row">
+    <h2 class="title is-3 has-text-centered">Key Capabilities</h2>
+  </div>
+  <br>
+  <div class="columns is-centered">
+    <div class="column">
+      <div class="content">
+        <h3 class="title is-4 has-text-centered">Four Evaluation Modes</h3>
+        <p>
+        NeuS-V rigorously evaluates videos across four distinct evaluation modes, allowing the benchmark to cover a vast variety of scenarios.
+        </p>
+      </div>
+    </div>
+    <div class="column">
+      <div class="columns is-centered">
+        <div class="column content">
+          <h3 class="title is-4 has-text-centered">Correlation with Human Annotation</h3>
+          <p>
+          NeuS-V consistently shows a stronger alignment with human text-to-video annotations compared to existing benchmarks (Pearson coefficients displayed at the top of each plot).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="columns is-centered">
+    <div class="column">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content">
+            <img src="static/images/violin.png">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="columns is-centered">
+        <div class="column content">
+          <img src="static/images/human_corr.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="title is-4 has-text-centered">Diverse Theme and Complexity Benchmarks</h3>
+  <p>
+  NeuS-V has been thoroughly benchmarked. These performance metrics reflect the full 360-prompt set, while correlations to human evaluations (in parentheses) are computed on a 160-prompt subset. NeuS-V enjoys high correlation across all themes and complexities.
+  </p>
+  <br>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <img src="static/images/table.png">
+      </div>
+  </div>
+</div>
+<br>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{sharan2024neuro,
+  author    = {Sharan, S.P. and Choi, Minkyu and Shah, Sahil and Goel, Harsh and Omama, Mohammad and Chinchali, Sandeep},
+  title     = {Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification}, 
+  journal   = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month     = {June},
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            Website source based on <a href="https://github.com/nerfies/nerfies.github.io">this source code</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
