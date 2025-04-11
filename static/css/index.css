@@ -111,6 +111,9 @@ body {
 
 .results-carousel {
   overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .results-carousel .item {
@@ -120,6 +123,10 @@ body {
   border-radius: 10px;
   padding: 0;
   font-size: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: initial;
 }
 
 .results-carousel video {
@@ -168,4 +175,68 @@ body {
     content: "";
     position: absolute;
     left: -20px;
+}
+
+.zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.zoom-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.zoom-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  transform: scale(0.95);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.zoom-overlay.active img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.zoom-overlay::after {
+  content: "✕";
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #333;
+  font-size: 2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .zoom-overlay img {
+    max-width: 95%;
+    max-height: 85%;
+  }
+}
+
+.zoomable-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: zoom-in;
+}
+
+.zoomable-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }

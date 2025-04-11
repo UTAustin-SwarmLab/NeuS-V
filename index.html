@@ -51,7 +51,7 @@
           <a class="navbar-item" href="https://utaustin-swarmlab.github.io/nsvs/">
             NSVS
           </a>
-          <a class="navbar-item" href="https://utaustin-swarmlab.github.io/neusv/">
+          <a class="navbar-item" href="https://utaustin-swarmlab.github.io/NeuS-V">
             NeuS-V
           </a>
         </div>
@@ -181,7 +181,7 @@
     <br>
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <img src="static/images/flowchart.jpg" alt="Method Overview">
+        <img src="static/images/flowchart.jpg" alt="Method Overview" class="zoomable-image">
       </div>
     </div>
     <p>
@@ -310,7 +310,7 @@
       <div class="columns is-centered">
         <div class="column is-four-fifths">
           <div class="content">
-            <img src="static/images/violin.png">
+            <img src="static/images/violin.png" class="zoomable-image">
           </div>
         </div>
       </div>
@@ -318,7 +318,7 @@
     <div class="column">
       <div class="columns is-centered">
         <div class="column content">
-          <img src="static/images/human_corr.png">
+          <img src="static/images/human_corr.png" class="zoomable-image">
         </div>
       </div>
     </div>
@@ -331,7 +331,7 @@
   <br>
     <div class="columns is-centered">
       <div class="column is-four-fifths">
-        <img src="static/images/table.png">
+        <img src="static/images/table.png" class="zoomable-image">
       </div>
   </div>
 </div>
@@ -364,6 +364,57 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+  window.addEventListener("load", () => {
+    const items = document.querySelectorAll(".results-carousel .item");
+    let maxHeight = 0;
+
+    items.forEach(item => {
+      item.style.height = "auto"; // reset to measure properly
+    });
+
+    items.forEach(item => {
+      const height = item.getBoundingClientRect().height;
+      if (height > maxHeight) maxHeight = height;
+    });
+
+    items.forEach(item => {
+      item.style.height = `${maxHeight}px`;
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".zoomable-image");
+    const zoomOverlay = document.createElement("div");
+    zoomOverlay.classList.add("zoom-overlay");
+    const zoomImage = document.createElement("img");
+    zoomOverlay.appendChild(zoomImage);
+    document.body.appendChild(zoomOverlay);
+    images.forEach((img) => {
+      const highResSrc = img.getAttribute("data-highres");
+      if (highResSrc) {
+        const preloadImg = new Image();
+        preloadImg.src = highResSrc;
+      }
+
+      img.addEventListener("click", () => {
+        zoomImage.src = highResSrc || img.src;
+        zoomOverlay.classList.add("active");
+      });
+    });
+    zoomOverlay.addEventListener("click", () => {
+      zoomOverlay.classList.remove("active");
+      zoomImage.src = "";
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") zoomOverlay.classList.remove("active");
+    });
+  });
+</script>
 
 </body>
 </html>
