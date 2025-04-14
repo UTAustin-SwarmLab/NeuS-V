@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start vLLM server in background
-./vllm_serve.sh > /dev/null 2>&1 &
+./vllm_serve.sh
 
 # Wait briefly to ensure vLLM is up before Gradio tries to connect
 sleep 60

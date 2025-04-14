@@ -11,4 +11,5 @@ vllm serve $MODEL \
     --trust-remote-code \
     --limit-mm-per-prompt image=4 \
     --max-model-len 8192 \
-    --gpu-memory-utilization 0.97
+    --gpu-memory-utilization 0.97 \
+    --disable-log-requests
