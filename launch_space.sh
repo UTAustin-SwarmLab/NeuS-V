@@ -7,4 +7,4 @@
 sleep 60
 
 # Start Gradio app
-python3 evaluate_demo.py
+# python3 evaluate_demo.py
