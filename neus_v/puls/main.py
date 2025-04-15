@@ -1,4 +1,4 @@
-from puls import *
+from neus_v.puls.puls import *
 
 import argparse
 import json

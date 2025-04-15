@@ -4,6 +4,8 @@ from pathlib import Path
 
 import gradio as gr
 
+from neus_v.puls.prompts import Mode
+from neus_v.puls.puls import PULS
 from neus_v.smooth_scoring import smooth_confidence_scores
 from neus_v.utils import clear_gpu_memory
 from neus_v.veval.eval import evaluate_video_with_sequence_of_images
@@ -16,8 +18,6 @@ warnings.filterwarnings(
 )
 
 # Paths and parameters
-# WEIGHT_PATH = Path("/opt/mars/mnt/model_weights")
-# WEIGHT_PATH = Path("/nas/mars/model_weights/")
 WEIGHT_PATH = Path("./assets/")
 pickle_path = WEIGHT_PATH / "distributions.pkl"
 num_of_frame_in_sequence = 3
@@ -64,40 +64,124 @@ def process_video(video_path, propositions, tl):
         return f"Error: {str(e)}"
 
 
+def generate_from_puls(prompt, mode_choice):
+    """Generate propositions and TL spec from a natural language prompt using PULS."""
+    # Check if prompt is blank
+    if not prompt or prompt.strip() == "":
+        raise gr.Error("Please enter a text prompt first", duration=5)
+        # return "Error: Please enter a text prompt first", "Error: Please enter a text prompt first"
+
+    mode_map = {
+        "Object-Action Alignment": Mode.OBJECT_ACTION_ALIGNMENT,
+        "Overall Consistency (default)": Mode.OVERALL_CONSISTENCY,
+        "Object Existence": Mode.OBJECT_EXISTENCE,
+        "Spatial Relationships": Mode.SPATIAL_RELATIONSHIP,
+    }
+
+    selected_mode = mode_map[mode_choice]
+    result = PULS(prompt, [selected_mode])
+
+    # Extract the relevant propositions and spec based on the selected mode
+    mode_key = selected_mode.name.lower().replace("_", " ")
+    if mode_key == "object action alignment":
+        mode_key = "object_action_alignment"
+    elif mode_key == "overall consistency":
+        mode_key = "overall_consistency"
+    elif mode_key == "object existence":
+        mode_key = "object_existence"
+    elif mode_key == "spatial relationship":
+        mode_key = "spatial_relationships"
+
+    propositions = result.get(mode_key, [])
+    spec = result.get(f"{mode_key}_spec", "")
+
+    return ", ".join(propositions), spec
+
+
 # Gradio interface
 def demo_interface(video, propositions, tl):
     """Wrapper for the Gradio interface."""
     return process_video(video, propositions, tl)
 
 
-def main():
-    # Example data from the original script
-    example_video_path_1 = (
-        "assets/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
-    )
-    example_video_path_2 = "assets/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
-    example_propositions = "waves lapping,ocean shore,storm bursts in,lightning on the sky"
-    example_tl = '("waves_lapping" & "ocean_shore") U ("storm_bursts_in" U "lightning_on_the_sky")'
+# Example data from the original script
+example_video_path_1 = (
+    "assets/A_storm_bursts_in_with_intermittent_lightning_and_causes_flooding_and_large_waves_crash_in.mp4"
+)
+example_video_path_2 = "assets/The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky.mp4"
+example_propositions = "waves lapping,ocean shore,storm bursts in,lightning on the sky"
+example_tl = '("waves_lapping" & "ocean_shore") U ("storm_bursts_in" U "lightning_on_the_sky")'
+example_prompt = (
+    "The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky"
+)
 
-    demo = gr.Interface(
-        fn=demo_interface,
-        inputs=[
-            gr.Video(label="Upload Video"),
-            gr.Textbox(label="List of Propositions (comma-separated)"),
-            gr.Textbox(label="Temporal Logic Specification"),
-        ],
-        outputs=gr.Textbox(label="Score on All"),
-        title="Video Evaluation with Temporal Logic",
-        description="Upload a video and provide propositions and temporal logic to evaluate the score_on_all.",
+with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
+    gr.Markdown("# Video Evaluation with Temporal Logic")
+    # gr.Markdown(
+    #     "Upload a video and provide a natural language description. You can either manually enter propositions and temporal logic or generate them using PULS."
+    # )
+
+    with gr.Row():
+        with gr.Column():
+            video_input = gr.Video(label="Upload Video")
+            prompt_input = gr.Textbox(
+                label="Text-to-Video Prompt",
+                # value=example_prompt,
+                placeholder="Describe the video content in natural language...",
+            )
+            gr.Markdown(
+                "You can either manually enter propositions and temporal logic specification below, or use the button below to automatically generate them from your text prompt using Prompt Understanding via Temporal Logic Specification (PULS). Please refer to our paper for more details."
+            )
+
+            with gr.Row():
+                use_puls_checkbox = gr.Checkbox(label="Use PULS to auto-generate propositions and TL spec", value=False)
+                mode_choice = gr.Dropdown(
+                    choices=[
+                        "Overall Consistency (default)",
+                        "Object Existence",
+                        "Spatial Relationships",
+                        "Object-Action Alignment",
+                    ],
+                    # value="Overall Consistency (default)",
+                    label="PULS Mode",
+                    visible=False,
+                )
+                generate_btn = gr.Button("Generate Propositions & TL Spec", visible=False)
+
+            propositions_input = gr.Textbox(label="List of Propositions (comma-separated)", placeholder="A, B, C")
+            tl_input = gr.Textbox(
+                label="Temporal Logic Specification", placeholder="(A & B) U C - means A and B hold until C occurs"
+            )
+
+            process_btn = gr.Button("Process Video")
+
+        with gr.Column():
+            output_score = gr.Textbox(label="NeuS-V Score")
+
+    # Show/hide PULS controls based on checkbox
+    use_puls_checkbox.change(
+        fn=lambda x: (gr.update(visible=x), gr.update(visible=x)),
+        inputs=[use_puls_checkbox],
+        outputs=[mode_choice, generate_btn],
+    )
+
+    # Generate propositions and TL spec from natural language
+    generate_btn.click(
+        fn=generate_from_puls, inputs=[prompt_input, mode_choice], outputs=[propositions_input, tl_input]
+    )
+
+    # Process video with current propositions and TL spec
+    process_btn.click(fn=demo_interface, inputs=[video_input, propositions_input, tl_input], outputs=[output_score])
+
+    # Examples
+    gr.Examples(
         examples=[
-            [example_video_path_1, example_propositions, example_tl],
-            [example_video_path_2, example_propositions, example_tl],
+            [example_video_path_1, example_prompt, "Overall Consistency", example_propositions, example_tl],
+            [example_video_path_2, example_prompt, "Overall Consistency", example_propositions, example_tl],
         ],
+        inputs=[video_input, prompt_input, mode_choice, propositions_input, tl_input],
     )
-
-    # demo.launch(allowed_paths=["/nas/mars/dataset/teaser"])
-    demo.launch(allowed_paths=["assets/"], server_name="0.0.0.0", server_port=7860)
 
 
 if __name__ == "__main__":
-    main()
+    demo.launch(allowed_paths=["assets/"], server_name="0.0.0.0", server_port=7860)

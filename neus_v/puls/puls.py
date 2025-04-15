@@ -1,6 +1,6 @@
-from llm import *
+from neus_v.puls.llm import *
 from openai import OpenAI
-from prompts import *
+from neus_v.puls.prompts import *
 import json
 import os
 import re
