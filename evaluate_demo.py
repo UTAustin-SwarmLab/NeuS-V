@@ -135,15 +135,12 @@ with gr.Blocks(title="NeuS-V: Neuro-Symbolic Evaluation of Text-to-Video Models"
     """
     )
 
-    # gr.Markdown("## Video Evaluation with Temporal Logic")
-    # gr.Markdown("Upload a video and provide a description to evaluate its content using temporal logic.")
-
     with gr.Row():
         with gr.Column():
             video_input = gr.Video(label="Upload Video")
             prompt_input = gr.Textbox(
                 label="Text-to-Video Prompt",
-                placeholder="Describe the video content in natural language...",
+                placeholder="The prompt used to generate the video...",
             )
             gr.Markdown(
                 "You can either manually enter propositions and temporal logic specification below, or use the button below to automatically generate them from your text prompt using Prompt Understanding via Temporal Logic Specification (PULS). Please refer to our paper for more details."
