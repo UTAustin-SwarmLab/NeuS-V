@@ -75,7 +75,7 @@ def generate_from_puls(prompt, mode_choice):
         "Object-Action Alignment": Mode.OBJECT_ACTION_ALIGNMENT,
         "Overall Consistency (default)": Mode.OVERALL_CONSISTENCY,
         "Object Existence": Mode.OBJECT_EXISTENCE,
-        "Spatial Relationships": Mode.SPATIAL_RELATIONSHIP,
+        "Spatial Relationship": Mode.SPATIAL_RELATIONSHIP,
     }
 
     selected_mode = mode_map[mode_choice]
@@ -117,16 +117,13 @@ example_prompt = (
 
 with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
     gr.Markdown("# Video Evaluation with Temporal Logic")
-    # gr.Markdown(
-    #     "Upload a video and provide a natural language description. You can either manually enter propositions and temporal logic or generate them using PULS."
-    # )
+    gr.Markdown("Upload a video and provide a description to evaluate its content using temporal logic.")
 
     with gr.Row():
         with gr.Column():
             video_input = gr.Video(label="Upload Video")
             prompt_input = gr.Textbox(
                 label="Text-to-Video Prompt",
-                # value=example_prompt,
                 placeholder="Describe the video content in natural language...",
             )
             gr.Markdown(
@@ -139,10 +136,9 @@ with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
                     choices=[
                         "Overall Consistency (default)",
                         "Object Existence",
-                        "Spatial Relationships",
+                        "Spatial Relationship",
                         "Object-Action Alignment",
                     ],
-                    # value="Overall Consistency (default)",
                     label="PULS Mode",
                     visible=False,
                 )
@@ -153,10 +149,16 @@ with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
                 label="Temporal Logic Specification", placeholder="(A & B) U C - means A and B hold until C occurs"
             )
 
-            process_btn = gr.Button("Process Video")
+            process_btn = gr.Button("Process Video", variant="primary")
 
         with gr.Column():
             output_score = gr.Textbox(label="NeuS-V Score")
+            gr.Markdown(
+                """
+                #### About the Score
+                The NeuS-V score (0-1) measures how well your video matches the specified temporal logic conditions. A higher score indicates better alignment with the expected sequence of events.
+                """
+            )
 
     # Show/hide PULS controls based on checkbox
     use_puls_checkbox.change(
@@ -176,8 +178,8 @@ with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
     # Examples
     gr.Examples(
         examples=[
-            [example_video_path_1, example_prompt, "Overall Consistency", example_propositions, example_tl],
-            [example_video_path_2, example_prompt, "Overall Consistency", example_propositions, example_tl],
+            [example_video_path_1, example_prompt, "Overall Consistency (default)", example_propositions, example_tl],
+            [example_video_path_2, example_prompt, "Overall Consistency (default)", example_propositions, example_tl],
         ],
         inputs=[video_input, prompt_input, mode_choice, propositions_input, tl_input],
     )
