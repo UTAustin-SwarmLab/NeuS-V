@@ -115,9 +115,28 @@ example_prompt = (
     "The ocean waves gently lapping at the shore, until a storm bursts in, and then lightning flashes across the sky"
 )
 
-with gr.Blocks(title="Video Evaluation with Temporal Logic") as demo:
-    gr.Markdown("# Video Evaluation with Temporal Logic")
-    gr.Markdown("Upload a video and provide a description to evaluate its content using temporal logic.")
+with gr.Blocks(title="NeuS-V: Neuro-Symbolic Evaluation of Text-to-Video Models") as demo:
+    gr.HTML(
+        """
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h1>NeuS-V: Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification 🤗</h1>
+    </div>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <p>
+            <a href="https://arxiv.org/abs/2403.12345">📜 Paper</a> | 
+            <a href="https://github.com/UTAustin-SwarmLab/NeuS-V">💻 GitHub</a> | 
+            <a href="https://ut-austin-swarmlab.github.io/NeuS-V/">🌐 Project Page</a>
+        </p>
+    </div>
+    <div style="text-align: center; font-size: 15px; font-weight: bold; color: red; margin-bottom: 20px;">
+        ⚠️ This demo is for academic research and experiential use only. 
+    </div>
+
+    """
+    )
+
+    # gr.Markdown("## Video Evaluation with Temporal Logic")
+    # gr.Markdown("Upload a video and provide a description to evaluate its content using temporal logic.")
 
     with gr.Row():
         with gr.Column():
