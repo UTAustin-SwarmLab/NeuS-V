@@ -1,0 +1,5 @@
+1. "Always a conveyor belt moving products along the line, until a sensor detects an error, and then the entire system comes to a halt."
+2. "A robot assembling components until it completes a cycle, and then it pauses momentarily before starting again."
+3. "Always an electric kettle boiling water, until steam begins to escape, and then it automatically shuts off."
+4. "A lightbulb flickering intermittently, until the switch is turned off, and then the room is cast into darkness."
+5. "Always a wind turbine spinning in the breeze, until the wind dies down, and then its blades come to a gradual stop."
