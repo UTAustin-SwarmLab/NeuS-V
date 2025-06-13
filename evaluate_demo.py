@@ -120,12 +120,13 @@ with gr.Blocks(title="NeuS-V: Neuro-Symbolic Evaluation of Text-to-Video Models"
         """
     <div style="text-align: center; margin-bottom: 20px;">
         <h1>NeuS-V: Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification 🤗</h1>
+        <h2>Published at CVPR 2025</h2>
     </div>
     <div style="text-align: center; margin-bottom: 20px;">
         <p>
-            <a href="https://arxiv.org/abs/2403.12345">📜 Paper</a> | 
+            <a href="https://arxiv.org/abs/2411.16718">📜 Paper</a> | 
             <a href="https://github.com/UTAustin-SwarmLab/NeuS-V">💻 GitHub</a> | 
-            <a href="https://ut-austin-swarmlab.github.io/NeuS-V/">🌐 Project Page</a>
+            <a href="https://utaustin-swarmlab.github.io/NeuS-V">🌐 Project Page</a>
         </p>
     </div>
     <div style="text-align: center; font-size: 15px; font-weight: bold; color: red; margin-bottom: 20px;">
