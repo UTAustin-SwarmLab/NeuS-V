@@ -34,9 +34,12 @@ If you appreciate our project, please consider giving us a star ⭐ on GitHub an
   
 ## ⚔️ Overview
 
+
 <div align="center">
 
-| <img src="assets/video1.gif" alt="Video 1" width="400"/> | <img src="assets/video2.gif" alt="Video 2" width="400"/> |
+| Runway Gen-3 | Pika |
+| ------------- | ------------- |
+| <video src="https://github.com/user-attachments/assets/506ced78-8d39-404e-9989-7241b870c91d"> | <video src="https://github.com/user-attachments/assets/16b31af9-439d-4801-b300-4e5d2290b0f8"> |
 
 </div>
 
